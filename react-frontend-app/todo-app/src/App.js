@@ -1,13 +1,10 @@
 import './App.css';
-import LearningComponent from './components/learning-example/LearningComponents';
-import LearningJavascript from './components/learning-example/LearningJavascript';
+import CounterComponent from './components/counter/CounterComponnent';
 
 function App() {
   return (
     <div className="App">
-     My Todo Application
-    <LearningComponent/>
-    <LearningJavascript/>
+      <CounterComponent />
     </div>
   );
 }
