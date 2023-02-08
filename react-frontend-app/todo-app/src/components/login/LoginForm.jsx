@@ -21,7 +21,7 @@ export default function LoginForm() {
         if(username === 'Nhung' && pwd === '123') {
             setShowSuccessMsg(true);
             setShowErrorMsg(false);
-            navigate("/welcome");
+            navigate(`/welcome/${username}`);
         } else {
             setShowErrorMsg(true);
             setShowSuccessMsg(false);

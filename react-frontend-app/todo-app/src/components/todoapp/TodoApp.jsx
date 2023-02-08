@@ -10,6 +10,7 @@ export default function TodoApp() {
                 <Routes>
                     <Route path='/' element={<LoginForm/>} />
                     <Route path='/login' element={<LoginForm/>} />
+                    <Route path='/welcome/:username' element={<HomePage />} />
                     <Route path='/welcome' element={<HomePage />} />
                     <Route path='*' element={<ErrorPage/>} />
                 </Routes>
