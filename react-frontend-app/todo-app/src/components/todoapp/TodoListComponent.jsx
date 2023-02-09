@@ -1,5 +1,4 @@
 import './TodoListComponent.css';
-import { Fragment } from "react";
 
 export default function TodoListComponent() {
     const today = new Date();
@@ -14,9 +13,9 @@ export default function TodoListComponent() {
     ];
 
     return (
-        <Fragment>
+        <div className="container">
             <div>TodoListComponent</div>
-            <table className="TodoTbl">
+            <table className="table">
                 <thead>
                     <tr>
                         <td>id</td>
@@ -39,6 +38,6 @@ export default function TodoListComponent() {
                     
                 </tbody>
             </table>
-        </Fragment>
+        </div>
     )
 }
