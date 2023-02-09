@@ -1,10 +1,16 @@
 import './App.css';
-import TodoApp from './components/todoapp/TodoApp';
+import Footer from './components/Footer/Footer';
+import Header from './components/Header/Header';
+import Content from './components/Contents/Content';
 
 function App() {
   return (
-    <div className="App">
-      <TodoApp />
+    <div className="App app_container">
+      <Header />
+      <div className="content">
+        <Content />
+      </div>
+      <Footer />
     </div>
   );
 }
