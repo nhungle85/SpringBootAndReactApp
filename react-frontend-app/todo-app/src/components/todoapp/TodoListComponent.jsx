@@ -1,32 +1,16 @@
 import './TodoListComponent.css';
-import axios from 'axios';
 import { useState } from 'react';
+import { retrieveTodoList, sayHello } from './api/TodoListService';
 
 export default function TodoListComponent() {
-    const today = new Date();
-    const targetDate = new Date(today.getFullYear() + 2, today.getMonth(), today.getDay());
     const [message, setMessage] = useState("");
     const [todoList, setTodoList] = useState([]);
 
-
-    // const todoList = [
-    //     {id: 1, description : "Learning React", doneStatus: false, endDate: targetDate},
-    //     {id: 2, description : "Learning Bootstrap", doneStatus: false, endDate: targetDate},
-    //     {id: 3, description : "Learning SpringBoot", doneStatus: false, endDate: targetDate},
-    //     {id: 4, description : "Learning Spring Cloud", doneStatus: false, endDate: targetDate},
-    //     {id: 5, description : "Learning Spring Security", doneStatus: false, endDate: targetDate}
-    // ];
-
     function callHelloFromRestApi() {
-        console.log('call backend api');
-        axios.get('http://localhost:8585/todo/sayHello/Nhung') //will return a promise
-            //if sucesss
-            .then((response) => {
-                console.log(response.data);
+        sayHello('Nhung123').then((response) => {
+                setMessage(response.data);
             })
-            //catch if error
             .catch((error) => {
-               // setMessage(error);
                console.log(error);
             })
             .finally(() => {
@@ -34,9 +18,7 @@ export default function TodoListComponent() {
     }
 
     function getTodoList() {
-        console.log('call get all todo list api');
-        axios.get('http://localhost:8585/todo/getAll')
-            .then((response) => loadTodoList(response))
+        retrieveTodoList().then((response) => loadTodoList(response))
             .catch((error) => showError(error));
     }
 
