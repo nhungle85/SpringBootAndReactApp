@@ -1,6 +1,6 @@
 import './TodoListComponent.css';
 import { useState } from 'react';
-import { retrieveTodoList, sayHello } from './api/TodoListService';
+import { retrieveTodoList, sayHello, deleteTodoById } from './api/TodoListService';
 
 export default function TodoListComponent() {
     const [message, setMessage] = useState("");
@@ -31,19 +31,35 @@ export default function TodoListComponent() {
         setMessage(error.message);
     }
 
+    function deleteTodo(id) {
+        deleteTodoById(id)
+            .then((response) => { 
+                console.log('delte todo ' + id);
+                //update list
+                getTodoList();
+                //show message
+                setMessage(`Delete todo item ${id}`);
+            })
+    }
+
     return (
         <div className="container">
             <div>TodoListComponent</div>
+            {
+                message && <div className="alert alert-warning">{message}</div>
+            }
+            
             <div>
                 <button id='showTodoListBtn' type='button' className='btn btn-success' onClick={getTodoList}>Show Todo List</button>
             </div>
             <table className="table">
                 <thead>
                     <tr>
-                        <td>id</td>
-                        <td>description</td>
-                        <td>Status</td>
-                        <td>Target Date</td>
+                        <th>id</th>
+                        <th>description</th>
+                        <th>Status</th>
+                        <th>Target Date</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,6 +70,9 @@ export default function TodoListComponent() {
                                 <td>{todo.description}</td>
                                 <td>{todo.status.toString()}</td>
                                 <td>{todo.targetDate}</td>
+                                <td>
+                                    <button className='btn btn-warning' onClick={() => deleteTodo(todo.id)}>Delete</button>
+                                </td>
                             </tr>
                         ))
                     }
@@ -61,8 +80,7 @@ export default function TodoListComponent() {
                 </tbody>
             </table>
             <div>
-                <button id='callHelloApiBtn' type="button" className="btn btn-success" onClick={callHelloFromRestApi}>Call Hello from REST API</button>
-                <div className="text-info">{message}</div>
+                <button id='callHelloApiBtn' type="button" className="btn btn-success" onClick={callHelloFromRestApi}>Call Hello from REST API</button> 
             </div>
         </div>
     )

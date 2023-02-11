@@ -3,6 +3,7 @@ package com.nle.microservice.todolistbackend.controller;
 import com.nle.microservice.todolistbackend.dto.TodoDto;
 import com.nle.microservice.todolistbackend.service.TodoListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,5 +23,16 @@ public class TodoListController {
     @GetMapping("/getAll")
     public List<TodoDto> getAllTodoList() {
         return service.getAllTodoList();
+    }
+
+    @GetMapping("/{id}")
+    public TodoDto getTodoById(@PathVariable(required = true) long id) {
+        return service.findById(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable(required = true) long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
