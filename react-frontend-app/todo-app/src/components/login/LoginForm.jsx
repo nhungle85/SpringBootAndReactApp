@@ -1,27 +1,33 @@
-import { useState } from "react"
+import { useState, useContext} from "react"
 import {useNavigate} from "react-router-dom"
+import { AuthContext } from "../security/AuthContext";
+
+const defaultFormFields = {
+    username: '',
+    password: ''
+}
 
 export default function LoginForm() {
-    const [username, setUsername] = useState("Nhung");
-    const [pwd, setPwd] = useState("");
+    const [formFields, setFormFields] = useState(defaultFormFields);
+    const {username, password} = formFields;
+
+    const {setCurrentUser} = useContext(AuthContext);
+
     const [showSuccessMsg, setShowSuccessMsg] = useState(false);
     const [showErrorMsg, setShowErrorMsg] = useState(false);
     const navigate = useNavigate();
 
-    function handleUsernameChange(event) {
-        setUsername(event.target.value);
-    }
-
-    function handlePasswordChange(event) {
-       // console.log(event.target.value)
-        setPwd(event.target.value);
+    function handleChange(event) {
+        const {name, value} = event.target;
+        setFormFields({...formFields, [name]: value});
     }
 
     function handleLogin() {
-        if(username === 'Nhung' && pwd === '123') {
+        if(username === 'Nhung' && password === '123') {
             setShowSuccessMsg(true);
             setShowErrorMsg(false);
-            navigate(`/welcome/${username}`);
+            setCurrentUser({username: username, password: password});
+            navigate(`/welcome`);
         } else {
             setShowErrorMsg(true);
             setShowSuccessMsg(false);
@@ -34,16 +40,22 @@ export default function LoginForm() {
         
         {showSuccessMsg && <div className="susscessfulMsg">Authenticated</div>}
         {showErrorMsg && <div className="errorMsg">Authenticated Fail. Please check your credentials and try again.</div>}
-        <div>
-            <label >Username: </label>
-            <input type="text" name="username" value={username} onChange={handleUsernameChange}></input>
+        <form onSubmit={() => {}}>
+            <div className="form-group row">
+                <label htmlFor="username" className="col-sm-2 col-form-label">Username: </label>
+                <div className="col-sm-10">
+                    <input id="username" className="form-control" required type="text" name="username" value={username} onChange={handleChange}></input>
+                </div>
+            </div>
+            <div className="form-group row">
+                <label htmlFor="password" className="col-sm-2 col-form-label">Password: </label>
+                <div className="col-sm-10">
+                    <input id="password" required className="form-control" type="password" name="password" value={password} onChange={handleChange}></input>
+                </div>
+            </div>
+            <button className="btn btn-primary" type="button" name="loginBtn" onClick={handleLogin}>Login</button>
+           
+        </form>
         </div>
-        <div>
-            <label >Password: </label>
-            <input type="password" name="pwd" value={pwd} onChange={handlePasswordChange}></input>
-        </div>
-        <button type="button" name="loginBtn" onClick={handleLogin}>Login</button>
-        </div>
-        
     )
 }

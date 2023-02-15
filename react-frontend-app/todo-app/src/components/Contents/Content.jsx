@@ -8,7 +8,7 @@ import TodoListComponent from "../TodoApp/TodoListComponent";
 
 const Content = (props) => {
     return (
-        <div className="content__container">
+        <div className="content__container container">
             <Routes>
                 <Route path='/' element={<LoginForm/>} />
                 <Route path='/login' element={<LoginForm/>} />

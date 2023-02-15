@@ -6,11 +6,9 @@ import Content from './components/Contents/Content';
 function App() {
   return (
     <div className="App app_container">
-      <Header />
-      <div className="content">
-        <Content />
-      </div>
-      <Footer />
+        <Header />
+          <Content />
+        <Footer />
     </div>
   );
 }
