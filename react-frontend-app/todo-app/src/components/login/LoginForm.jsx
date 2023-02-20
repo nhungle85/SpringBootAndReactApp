@@ -1,6 +1,6 @@
-import { useState, useContext} from "react"
+import { useState} from "react"
 import {useNavigate} from "react-router-dom"
-import { AuthContext } from "../security/AuthContext";
+import {useAuth } from "../security/AuthContext";
 
 const defaultFormFields = {
     username: '',
@@ -11,7 +11,7 @@ export default function LoginForm() {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {username, password} = formFields;
 
-    const {setCurrentUser} = useContext(AuthContext);
+    const {setCurrentUser, setAuthenticated} = useAuth();
 
     const [showSuccessMsg, setShowSuccessMsg] = useState(false);
     const [showErrorMsg, setShowErrorMsg] = useState(false);
@@ -27,10 +27,12 @@ export default function LoginForm() {
             setShowSuccessMsg(true);
             setShowErrorMsg(false);
             setCurrentUser({username: username, password: password});
+            setAuthenticated(true);
             navigate(`/welcome`);
         } else {
             setShowErrorMsg(true);
             setShowSuccessMsg(false);
+            setAuthenticated(false);
         }
     }
 

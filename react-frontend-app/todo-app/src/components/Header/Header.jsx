@@ -1,35 +1,44 @@
 import { Nav } from "react-bootstrap";
-import { AuthContext } from "../security/AuthContext";
-import { useContext } from "react";
+import { useAuth } from "../security/AuthContext";
 import { Link } from "react-router-dom";
+import './Header.css'
 
 export default function Header() {
-    const {currentUser} = useContext(AuthContext);
+    const {isAuthenticated} = useAuth();
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-6">
-                <Nav activeKey="/welcome" >
-                    <Nav.Item>
-                        <Nav.Link href="/welcome">Home</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link href="/todo">Todos</Nav.Link>
-                    </Nav.Item> 
-                    </Nav>
-                </div>
-                <div className="col-6">
-                    {
-                        currentUser ? (
-                            <Link to='/logout' className="nav-link">Log out</Link>
-                        ) : (
-                            <Link to='/login' className="nav-link">Log in</Link>
-                        )
-                    }
-                
+        <header className="border-bottom border-light border-5 mb-5 p-2 header">
+            <div className="container">
+                <div className="row">
+                    <div className="col-6">
+                        <nav className="navbar navbar-expand-lg">
+                            <div className="collapse navbar-collapse">
+                                <ul className="navbar-nav">
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to='/welcome'>Home</Link>
+                                    </li>
+                                    {
+                                        isAuthenticated ? (
+                                            <li className="nav-item">
+                                                <Link className="nav-link" to='/todo'>Todos</Link>
+                                            </li>
+                                        ): (<div/>)
+                                    }
+                                </ul>
+                            </div>
+                        </nav>
+                   
+                    </div>
+                    <div className="col-6">
+                        {
+                            isAuthenticated ? (
+                                <Link to='/logout' className="nav-link">Log out</Link>
+                            ) : (
+                                <Link to='/login' className="nav-link">Log in</Link>
+                            )
+                        }
+                    </div>
                 </div>
             </div>
-            
-        </div>
+        </header>
   );
 }

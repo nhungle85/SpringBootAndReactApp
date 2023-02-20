@@ -1,17 +1,17 @@
-import {useParams, Link, useNavigate} from "react-router-dom"
-import { AuthContext } from "../security/AuthContext";
-import { useContext, useEffect } from "react";
+import {Link, useNavigate} from "react-router-dom"
+import { useAuth } from "../security/AuthContext";
+import { useEffect } from "react";
 
 export default function HomePage() {
    // const {username} = useParams();
-    const {currentUser} = useContext(AuthContext);
+    const {currentUser, isAuthenticated} = useAuth();
     const navigate = useNavigate();
 
     useEffect(() => {
         console.log(`use effect Home page, current user: ${currentUser}`);
 
         //redirect to login page when user not login already
-        if (currentUser === null || currentUser.username === '') {
+        if (isAuthenticated === false) {
             navigate("/login");
         }
         
