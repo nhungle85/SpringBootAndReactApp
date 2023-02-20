@@ -17,11 +17,11 @@ export default function Header() {
                                         <Link className="nav-link" to='/welcome'>Home</Link>
                                     </li>
                                     {
-                                        isAuthenticated ? (
+                                        isAuthenticated &&
                                             <li className="nav-item">
                                                 <Link className="nav-link" to='/todo'>Todos</Link>
                                             </li>
-                                        ): (<div/>)
+                                       
                                     }
                                 </ul>
                             </div>
