@@ -10,11 +10,9 @@ const defaultFormFields = {
 export default function LoginForm() {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const {username, password} = formFields;
-
-    const {setCurrentUser, setAuthenticated} = useAuth();
-
     const [showSuccessMsg, setShowSuccessMsg] = useState(false);
     const [showErrorMsg, setShowErrorMsg] = useState(false);
+    const { handleLogin} = useAuth();
     const navigate = useNavigate();
 
     function handleChange(event) {
@@ -22,24 +20,19 @@ export default function LoginForm() {
         setFormFields({...formFields, [name]: value});
     }
 
-    function handleLogin() {
-        if(username === 'Nhung' && password === '123') {
+    function handleSubmit() { 
+        if(handleLogin(username, password)) {
             setShowSuccessMsg(true);
             setShowErrorMsg(false);
-            setCurrentUser({username: username, password: password});
-            setAuthenticated(true);
             navigate(`/welcome`);
         } else {
             setShowErrorMsg(true);
             setShowSuccessMsg(false);
-            setAuthenticated(false);
         }
     }
 
     return(
-       
        <div className="LoginForm">
-        
         {showSuccessMsg && <div className="susscessfulMsg">Authenticated</div>}
         {showErrorMsg && <div className="errorMsg">Authenticated Fail. Please check your credentials and try again.</div>}
         <form onSubmit={() => {}}>
@@ -55,7 +48,7 @@ export default function LoginForm() {
                     <input id="password" required className="form-control" type="password" name="password" value={password} onChange={handleChange}></input>
                 </div>
             </div>
-            <button className="btn btn-primary" type="button" name="loginBtn" onClick={handleLogin}>Login</button>
+            <button className="btn btn-primary" type="button" name="loginBtn" onClick={handleSubmit}>Login</button>
            
         </form>
         </div>

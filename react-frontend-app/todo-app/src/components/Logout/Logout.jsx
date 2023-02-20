@@ -1,18 +1,14 @@
-import { useContext, useEffect } from "react";
-import { AuthContext } from "../security/AuthContext";
+import {useEffect } from "react";
+import {useAuth } from "../security/AuthContext";
 
 export default function Logout() {
-    const {currentUser, setCurrentUser, setAuthenticated} = useContext(AuthContext);
+    const {handleLogout} = useAuth();
    
     //run this function when the component is mounted
     useEffect(() => {
-        //reset current user
-        setCurrentUser(null);
-        setAuthenticated(false);
+        handleLogout();
     },[])
     
-    console.log(`Reset ${currentUser}`);
-
     return (
         <div>
             You are logged out. Thank you for using my application.
