@@ -1,9 +1,15 @@
 import { useAuth } from "../security/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './Header.css'
 
 export default function Header() {
-    const {isAuthenticated} = useAuth();
+    const {currentUser, isAuthenticated, handleLogout} = useAuth();
+    const navigate = useNavigate();
+
+    function doLogout() {
+        handleLogout();
+        navigate('/logout')
+    }
     return (
         <header className="border-bottom border-light border-5 mb-5 p-2 header">
             <div className="container">
@@ -30,7 +36,9 @@ export default function Header() {
                     <div className="col-6">
                         {
                             isAuthenticated ? (
-                                <Link to='/logout' className="nav-link">Log out</Link>
+                                <div>
+                                 <Link to='/logout' onClick={doLogout} className="nav-link">Log out</Link> 
+                                </div>
                             ) : (
                                 <Link to='/login' className="nav-link">Log in</Link>
                             )

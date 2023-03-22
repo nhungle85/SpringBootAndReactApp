@@ -20,8 +20,10 @@ export default function LoginForm() {
         setFormFields({...formFields, [name]: value});
     }
 
-    function handleSubmit() { 
-        if(handleLogin(username, password)) {
+    async function handleSubmit() { 
+        const result = await handleLogin(username, password);
+        if(result) {
+            console.log('goto welcome page')
             setShowSuccessMsg(true);
             setShowErrorMsg(false);
             navigate(`/welcome`);

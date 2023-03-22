@@ -1,13 +1,15 @@
 import './TodoListComponent.css';
 import { useState } from 'react';
 import { retrieveTodoList, sayHello, deleteTodoById } from './api/TodoListService';
+import { useAuth } from '../security/AuthContext';
 
 export default function TodoListComponent() {
     const [message, setMessage] = useState("");
     const [todoList, setTodoList] = useState([]);
+    const { token, currentUser} = useAuth();
 
     function callHelloFromRestApi() {
-        sayHello('Nhung123').then((response) => {
+        sayHello(token, currentUser).then((response) => {
                 setMessage(response.data);
             })
             .catch((error) => {
@@ -18,12 +20,12 @@ export default function TodoListComponent() {
     }
 
     function getTodoList() {
-        retrieveTodoList().then((response) => loadTodoList(response))
+        retrieveTodoList(token).then((response) => loadTodoList(response))
             .catch((error) => showError(error));
     }
 
     function loadTodoList(response) {
-        console.log(response.data);
+        
         setTodoList(response.data);
     }
 
@@ -32,7 +34,7 @@ export default function TodoListComponent() {
     }
 
     function deleteTodo(id) {
-        deleteTodoById(id)
+        deleteTodoById(token, id)
             .then((response) => { 
                 console.log('delte todo ' + id);
                 //update list
@@ -82,6 +84,8 @@ export default function TodoListComponent() {
             <div>
                 <button id='callHelloApiBtn' type="button" className="btn btn-success" onClick={callHelloFromRestApi}>Call Hello from REST API</button> 
             </div>
+
+            
         </div>
     )
 }

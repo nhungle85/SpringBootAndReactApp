@@ -1,4 +1,5 @@
 import { createContext, useState, useContext } from "react";
+import { executeBasicAuth, sayHello } from "../TodoApp/api/TodoListService";
 
 //create a Context
 export const AuthContext = createContext();
@@ -6,28 +7,39 @@ export const AuthContext = createContext();
 //Share the created context with other components
 export default function AuthProvider({children}) {
     const [currentUser, setCurrentUser] = useState(null);
+    const [token, setToken] = useState(null);
     const [isAuthenticated, setAuthenticated] = useState(false);
     
     //add api call to login
-    function handleLogin(username, password) {
-        if(username === 'Nhung' && password === '123') {
-            setCurrentUser({username: username, password: password});
-            setAuthenticated(true);
-            return true;
-        } else {
-            setAuthenticated(false);
-            return false;
+    async function handleLogin(username, password) {
+        const baToken = 'Basic ' + window.btoa(username + ":" + password);
+        try {
+            const response = await executeBasicAuth(baToken);
+    
+            if(response.status === 200) {
+                setToken(baToken);
+                setCurrentUser(username);
+                setAuthenticated(true);
+                
+                return true;
+            } else {
+                handleLogout();
+            }
+        } catch (e) {
+            handleLogout();
         }
+        return false;
     }
 
     //add api to call logout
     function handleLogout() {
         setCurrentUser(null);
         setAuthenticated(false);
+        setToken(null);
     }
 
     //export to share value
-    const valueToShare = {currentUser, setCurrentUser, isAuthenticated, setAuthenticated, handleLogin, handleLogout};
+    const valueToShare = {token, currentUser, setCurrentUser, isAuthenticated, setAuthenticated, handleLogin, handleLogout};
 
     return (
         <AuthContext.Provider value={valueToShare}>

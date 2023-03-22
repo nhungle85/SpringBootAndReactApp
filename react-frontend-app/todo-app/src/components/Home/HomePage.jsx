@@ -1,6 +1,8 @@
 import {Link, useNavigate} from "react-router-dom"
 import { useAuth } from "../security/AuthContext";
 import { useEffect } from "react";
+import PDFViewer from "../PDFViewer/PDFViewer"
+
 
 export default function HomePage() {
    // const {username} = useParams();
@@ -21,6 +23,7 @@ export default function HomePage() {
         <>  
             <div>Home Page {currentUser ? currentUser.username : ''}</div>
             <Link to='/todo'>Go to Todo List</Link> 
+            {/* <PDFViewer /> */}
         </>
 
     )

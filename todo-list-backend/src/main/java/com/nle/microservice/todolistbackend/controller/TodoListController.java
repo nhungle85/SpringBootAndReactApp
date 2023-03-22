@@ -15,6 +15,11 @@ public class TodoListController {
     @Autowired
     private TodoListService service;
 
+    @GetMapping("/basicauth")
+    public String basicAuth() {
+        return "success";
+    }
+
     @GetMapping("/sayHello/{param}")
     public String sayHello(@PathVariable(required = false) String param) {
         return String.format("This is Todo list from backend, %s", param);
