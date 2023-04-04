@@ -1,4 +1,5 @@
 import { createContext, useState, useContext } from "react";
+import { apiClient } from "../TodoApp/api/ApiClient";
 import { executeBasicAuth, sayHello } from "../TodoApp/api/TodoListService";
 
 //create a Context
@@ -20,6 +21,15 @@ export default function AuthProvider({children}) {
                 setToken(baToken);
                 setCurrentUser(username);
                 setAuthenticated(true);
+
+                apiClient.interceptors.request.use(
+                    (config) => {
+                        console.log('interception and adding token to request header');
+                        config.headers.Authorization = baToken;
+
+                        return config;
+                    }
+                )
                 
                 return true;
             } else {

@@ -6,10 +6,10 @@ import { useAuth } from '../security/AuthContext';
 export default function TodoListComponent() {
     const [message, setMessage] = useState("");
     const [todoList, setTodoList] = useState([]);
-    const { token, currentUser} = useAuth();
+    const {currentUser} = useAuth();
 
     function callHelloFromRestApi() {
-        sayHello(token, currentUser).then((response) => {
+        sayHello(currentUser).then((response) => {
                 setMessage(response.data);
             })
             .catch((error) => {
@@ -20,7 +20,7 @@ export default function TodoListComponent() {
     }
 
     function getTodoList() {
-        retrieveTodoList(token).then((response) => loadTodoList(response))
+        retrieveTodoList().then((response) => loadTodoList(response))
             .catch((error) => showError(error));
     }
 
@@ -34,13 +34,16 @@ export default function TodoListComponent() {
     }
 
     function deleteTodo(id) {
-        deleteTodoById(token, id)
+        deleteTodoById(id)
             .then((response) => { 
                 console.log('delte todo ' + id);
                 //update list
                 getTodoList();
                 //show message
                 setMessage(`Delete todo item ${id}`);
+            })
+            .catch((error) => {
+                console.log(error);
             })
     }
 
